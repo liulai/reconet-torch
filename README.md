@@ -7,8 +7,10 @@
 </div>
 
 
- <video src="videos/output_shaman_1_concat01_10.avi" controls="controls">
-   videoaa
+
+
+<video id="video" controls="" preload="none" >
+<source id="avi" src="videos/output_shaman_1_concat01_10.avi" type="video/avi">
 </video>
 
 
