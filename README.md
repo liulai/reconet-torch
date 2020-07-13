@@ -30,7 +30,7 @@ python video_cv2.py --video-name 'avi/output_style.avi' --mode video_style --sav
 ### nodes
 
 You can use optim.Adam(), it results bubble artifacts in the following red boxes. I used optim.Adamax() in my code.
-![Bubble artifacts](https://github.com/EmptySamurai/pytorch-reconet/blob/master/bubble_artifacts.jpg?raw=true)
+![Bubble artifacts](videos/bubble1.png)
 
 
 
