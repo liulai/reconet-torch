@@ -7,10 +7,7 @@ This repository contains a PyTorch implementation of the [ReCoNet paper](https:/
 - [Saksham Khandelwal](https://github.com/skq024)
 - [safwankdb](https://github.com/safwankdb)
 
-
-<div align='center'>
-  <img src="videos/shanmen1.png" alt="autoportrait" height="290"  width="500"/>(videos/output_shaman_1_concat01_10.avi)
-</div>
+[![Watch the video](videos/shanmen1.png)](videos/output_shaman_1_concat01_10.avi)
 
 
 ## dataset
@@ -32,7 +29,7 @@ python video_cv2.py --video-name 'avi/output_style.avi' --mode video_style --sav
 
 ### nodes
 
-You can use optim.Adam(), it results bubble artifacts in the following red boxes. I used optim.Adamax() in my code.
+You can use ''optim.Adam()'', it results bubble artifacts in the following red boxes. I used ''optim.Adamax()'' in my code.
 
 <div align='center'>
   <img src="videos/bubble1.png" alt="autoportrait" height="290"  width="500"/>
