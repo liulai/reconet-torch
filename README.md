@@ -9,11 +9,10 @@
 
 
 
-<video id="video" controls="" preload="none" poster="http://om2bks7xs.bkt.clouddn.com/2017-08-26-Markdown-Advance-Video.jpg">
-      <source id="mp4" src="videos/output_shaman_1_concat01_10.avi" type="video/mp4">
-      </video>
-
-
-
+<video width="320" height="240" controls>
+<source src="https://www.runoob.com/try/demo_source/movie.mp4" type="video/mp4">
+<source src="https://www.runoob.com/try/demo_source/movie.ogg" type="video/ogg">
+您的浏览器不支持 HTML5 video 标签。
+</video>
 
 
