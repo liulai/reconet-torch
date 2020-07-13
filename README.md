@@ -18,11 +18,18 @@ we use the MPI Sintel Dataset. The dataset contains flow fields, motion boundari
 # Train
 
 
+```bash
 python train.py --phase train --path mpidataset
+```
+
+
 
 
 # video
 
+```bash
 python video_cv2.py --video-name 'avi/output_style.avi' --mode video_style --save-directory trained_models --model-name model.pth
+```
+
 
 
