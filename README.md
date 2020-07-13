@@ -13,23 +13,25 @@ This repository contains a PyTorch implementation of the [ReCoNet paper](https:/
 ## dataset
 we use the MPI Sintel Dataset. The dataset contains flow fields, motion boundaries, unmatched regions, and image sequences. The image sequences are rendered with different levels of difficulty.
 
-
-
 # Train
-
 
 ```bash
 python train.py --phase train --path mpidataset
 ```
-
-
-
 
 # video
 
 ```bash
 python video_cv2.py --video-name 'avi/output_style.avi' --mode video_style --save-directory trained_models --model-name model.pth
 ```
+
+
+
+**notice**
+You can use optim.Adam(), it results bubble artifacts. I used optim.Adamax() in my code.
+![Bubble artifacts](https://github.com/EmptySamurai/pytorch-reconet/blob/master/bubble_artifacts.jpg?raw=true)
+
+
 
 
 
