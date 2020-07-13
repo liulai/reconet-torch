@@ -29,7 +29,7 @@ python video_cv2.py --video-name 'avi/output_style.avi' --mode video_style --sav
 
 ### nodes
 
-You can use ''optim.Adam()'', it results bubble artifacts in the following red boxes. I used ''optim.Adamax()'' in my code.
+You can use **optim.Adam()**, it results bubble artifacts in the following red boxes. I used **optim.Adamax()** in my code.
 
 <div align='center'>
   <img src="videos/bubble1.png" alt="autoportrait" height="290"  width="500"/>
