@@ -1,4 +1,4 @@
 # reconet-torch
 
-[](videos/output_shaman_1_concat01_10.avi)
+[video](videos/output_shaman_1_concat01_10.avi)
 
