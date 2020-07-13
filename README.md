@@ -7,7 +7,7 @@ This repository contains a PyTorch implementation of the [ReCoNet paper](https:/
 - [Saksham Khandelwal](https://github.com/skq024)
 - [safwankdb](https://github.com/safwankdb)
 
-[![Watch the video](videos/shanmen1.png)](videos/output_shaman_1_concat01_10.avi)
+[![Watch the video](videos/shanmen2.png)](videos/output_shaman_1_concat01_10.avi)
 
 
 ## dataset
