@@ -8,7 +8,7 @@ import os
 from torch.utils.data import DataLoader
 from PIL import Image
 from network import ReCoNet, Vgg16, gram,gram2, Normalization
-from data_load import load_data, warp, warp2, get_mask2
+from data_load import load_data, warp, warp2, get_mask2,MPIDataset2
 import datetime
 
 
@@ -217,9 +217,9 @@ def main():
     args = parser.parse_args()
 
    ## args.path = r'F:\DATASET\MPI-Sintel-complete'
-    args.path ='.'
+    #args.path ='.'
     ##style_img = Image.open(os.path.join(args.path, args.style_name))
-	style_img = Image.open(args.style_name)
+    style_img = Image.open(args.style_name)
     style_img = style_img.resize((weight, height),Image.BILINEAR)
     style_img = torchvision.transforms.ToTensor()(style_img)
 
@@ -235,9 +235,11 @@ def main():
     optimizer=optim.Adamax(model_style.parameters(),lr=args.lr)
 
     print('=====>Loading Data')
-    os.chdir(args.path)
-    dataset_train = load_data(os.path.join(args.path, 'train'))
-    dataset_test = load_data(os.path.join(args.path, 'test'))
+    #os.chdir(args.path)
+    #dataset_train = load_data(os.path.join(args.path, 'train'))
+    #dataset_test = load_data(os.path.join(args.path, 'test'))
+    dataset_train = MPIDataset2(os.path.join(args.path,'training'))
+    dataset_test = MPIDataset2(os.path.join(args.path,'test'))
     print('train len:', len(dataset_train))
     print('test len:', len(dataset_test))
 
