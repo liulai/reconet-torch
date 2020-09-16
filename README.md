@@ -16,7 +16,7 @@ we use the MPI Sintel Dataset. The dataset contains flow fields, motion boundari
 # Train
 
 ```bash
-python train.py --phase train --path mpidataset
+python train.py --phase train --path mpidataset --style-name=style_images/vanGogh.jpg
 ```
 
 # video
