@@ -55,6 +55,13 @@ class MPIDataSet(Dataset):
         mask[mask > 0] = 1
         return img1, img2, mask, flow
 
+def toString(num):
+    string = str(num)
+    while (len(string) < 4):
+        string = "0" + string
+    return string
+
+
 class MPIDataset2(Dataset):
 
     def __init__(self, path, transform=None):
