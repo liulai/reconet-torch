@@ -10,7 +10,7 @@ from PIL import Image
 from network import ReCoNet, Vgg16, gram,gram2, Normalization
 from data_load import load_data, warp, warp2, get_mask2,MPIDataset2
 import datetime
-
+from tqdm import tqdm
 
 
 #weight = 640
@@ -34,7 +34,7 @@ STYLE_WEIGHTS = [1, 1e0, 1e0, 1e0]
 
 def train2(args, data_train, data_test, model_style, model_loss, optimizer, device, style_img, mse_loss, msesum_loss,
           normalization_mean, normalization_std):
-    print('args:', args)
+    #print('args:', args)
 
     normalization = Normalization(normalization_mean, normalization_std)
 
@@ -44,9 +44,10 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, devi
 #    model_loss.eval()
     count = [0]
     while count[0] < args.epochs:
+        data_bar=tqdm(data_train)
         count[0] += 1
         progress_num = [0]
-        for id, sample in enumerate(data_train):
+        for id, sample in enumerate(data_bar):
             optimizer.zero_grad()
 
             img1, img2, mask, flow = sample
@@ -145,8 +146,15 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, devi
 
             progress_num[0]+=img1.size(0)
             if id % args.log_interval == 0:
-                print(
-                    'Epoch:{} [{}/{}]{:.2f}% temp_feature_loss:{:.9f} temp_output_loss:{:.8f} content_loss:{:.2f} style_loss:{:.7f} reg_loss:{:.1f}'.format(
+                #print(
+                #    'Epoch:{} [{}/{}]{:.2f}% temp_feature_loss:{:.9f} temp_output_loss:{:.8f} content_loss:{:.2f} style_loss:{:.7f} reg_loss:{:.1f}'.format(
+                #        count[0], progress_num[0], len(data_train.dataset),
+                #        progress_num[0] / len(data_train.dataset) * 100.0, temp_feature_loss.item(),
+                #        temp_output_loss.item(), content_loss.item(),
+                #        style_loss.item(),
+                #        reg_loss.item()))
+                
+                data_bar.set_description('Epoch:{} [{}/{}]{:.2f}% temp_feature_loss:{:.9f} temp_output_loss:{:.8f} content_loss:{:.2f} style_loss:{:.7f} reg_loss:{:.1f}'.format(
                         count[0], progress_num[0], len(data_train.dataset),
                         progress_num[0] / len(data_train.dataset) * 100.0, temp_feature_loss.item(),
                         temp_output_loss.item(), content_loss.item(),
@@ -246,8 +254,10 @@ def main():
     data_train = DataLoader(dataset=dataset_train, batch_size=args.batch_size, shuffle=True)
     data_test = DataLoader(dataset=dataset_test, batch_size=args.test_batch_size)
 
-    sample = dataset_train[0]
-    print(len(sample))
+    #sample = dataset_train[0]
+    #print(len(sample))
+    
+    print('args:', args)
 
     if args.phase == 'train' or args.phase == 'Train':
         # a=1
