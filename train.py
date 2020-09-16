@@ -154,11 +154,15 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, devi
                 #        style_loss.item(),
                 #        reg_loss.item()))
                 
-                data_bar.set_description('Epoch:{} temp_feat_lo:{:.7f} temp_out_lo:{:.7f}'
-                                         .format(
-                                             count[0],
-                                             temp_feature_loss.item(),
-                                             temp_output_loss.item()))
+                data_bar.set_description(
+                    'Epoch:%d temp_feat_lo:%.7f temp_out_lo:%.7f cont_lo:%.2f style_lo:%.7f reg_lo:%.1f'
+                        %(
+                        count[0],
+                        temp_feature_loss.item(),
+                        temp_output_loss.item(),
+                        content_loss.item(),
+                        style_loss.item(),
+                        reg_loss.item()))
 
 
             temp_feature_loss*=args.LAMBDA_F
