@@ -154,12 +154,14 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, devi
                 #        style_loss.item(),
                 #        reg_loss.item()))
                 
-                data_bar.set_description('Epoch:{} [{}/{}]{:.2f}% temp_feature_loss:{:.9f} temp_output_loss:{:.8f} content_loss:{:.2f} style_loss:{:.7f} reg_loss:{:.1f}'.format(
-                        count[0], progress_num[0], len(data_train.dataset),
-                        progress_num[0] / len(data_train.dataset) * 100.0, temp_feature_loss.item(),
-                        temp_output_loss.item(), content_loss.item(),
-                        style_loss.item(),
-                        reg_loss.item()))
+                data_bar.set_description('Epoch:{} temp_feat_lo:{:.7f} temp_out_lo:{:.7f} cont_lo:{:.2f} style_lo:{:.7f} reg_lo:{:.1f}'
+                                         .format(
+                                             count[0],
+                                             temp_feature_loss.item(),
+                                             temp_output_loss.item(),
+                                             content_loss.item(),
+                                             style_loss.item(),
+                                             reg_loss.item()))
 
 
             temp_feature_loss*=args.LAMBDA_F
@@ -223,6 +225,9 @@ def main():
     cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
     args = parser.parse_args()
+    #args.path='../../mpidataset'
+    #args.style_name='style_images/vanGogh.jpg'
+    #args.epochs = 1
 
    ## args.path = r'F:\DATASET\MPI-Sintel-complete'
     #args.path ='.'
@@ -274,21 +279,12 @@ def main():
               cnn_normalization_mean, cnn_normalization_std)
 
 
-
-
-def test():
-
-    test = torch.range(0, 5).view(2, 3)
-    print(test)
-    print(torch.sum(test, dim=1))
-
-
 if __name__ == '__main__':
     start_time=datetime.datetime.now()
-    print('start time:',start_time.strftime('%Y/%m/%d %H:%M:%S'))
+#     print('start time:',start_time.strftime('%Y/%m/%d %H:%M:%S'))
 
     main()
     end_time=datetime.datetime.now()
-    print('end time:',end_time.strftime('%Y/%m/%d %H:%M:%S'))
+#     print('end time:',end_time.strftime('%Y/%m/%d %H:%M:%S'))
     print('cost time:',end_time-start_time)
     # test()
