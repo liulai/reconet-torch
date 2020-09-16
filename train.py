@@ -184,8 +184,10 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, sche
         if (not os.path.exists(args.save_directory)):
             os.mkdir(args.save_directory)
         time_str = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        torch.save(model_style.state_dict(), os.path.join(args.save_directory, '%s.pt' % (args.phase)))
-        #torch.save(model_style.state_dict(), os.path.join(args.save_directory, 'style25_%s_%s.pt' % (args.phase,time_str)))
+        if(!args.output_model):
+            torch.save(model_style.state_dict(), os.path.join(args.save_directory, '%s.pt' % (args.phase)))
+        else:
+            torch.save(model_style.state_dict(), os.path.join(args.save_directory, '%s_%s.pt' % (args.phase,time_str)))
 
 
 def main():
@@ -222,6 +224,8 @@ def main():
                         help='model name')
     parser.add_argument('--style-name', type=str, default='',
                         help='style image name')
+    parser.add_argument('--output-model',type=bool,default=False,
+                        help='True: generate output model name')
 
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
