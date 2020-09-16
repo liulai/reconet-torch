@@ -184,7 +184,8 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, sche
         if (not os.path.exists(args.save_directory)):
             os.mkdir(args.save_directory)
         time_str = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-        torch.save(model_style.state_dict(), os.path.join(args.save_directory, 'style25_%s_%s.pt' % (args.phase,time_str)))
+        torch.save(model_style.state_dict(), os.path.join(args.save_directory, '%s.pt' % (args.phase)))
+        #torch.save(model_style.state_dict(), os.path.join(args.save_directory, 'style25_%s_%s.pt' % (args.phase,time_str)))
 
 
 def main():
