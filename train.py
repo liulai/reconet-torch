@@ -1,5 +1,6 @@
 import torch
 import torchvision
+import torch.optim.lr_scheduler as ls
 import numpy as np
 import matplotlib.pyplot as plt
 import argparse
@@ -32,7 +33,7 @@ STYLE_WEIGHTS = [1, 1e0, 1e0, 1e0]
 
 
 
-def train2(args, data_train, data_test, model_style, model_loss, optimizer, device, style_img, mse_loss, msesum_loss,
+def train2(args, data_train, data_test, model_style, model_loss, optimizer, schedular, device, style_img, mse_loss, msesum_loss,
           normalization_mean, normalization_std):
     #print('args:', args)
 
@@ -176,6 +177,7 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, devi
 
 
             optimizer.step()
+        schedular.step()
 
 
     if (args.save_model):
@@ -247,6 +249,8 @@ def main():
     msesum_loss = torch.nn.MSELoss(reduction='none')
 
     optimizer=optim.Adamax(model_style.parameters(),lr=args.lr)
+    
+    schedular = ls.MultiStepLR(optimizer, milestones=[8, 20], gamma=0.2)
 
     print('=====>Loading Data')
     #os.chdir(args.path)
@@ -267,7 +271,7 @@ def main():
 
     if args.phase == 'train' or args.phase == 'Train':
         # a=1
-        train2(args, data_train, data_test, model_style, model_loss, optimizer, device, style_img, mse_loss, msesum_loss,
+        train2(args, data_train, data_test, model_style, model_loss, optimizer, schedular, device, style_img, mse_loss, msesum_loss,
               cnn_normalization_mean, cnn_normalization_std)
     elif args.phase == 'finetune':
         print('finetune')
@@ -276,7 +280,7 @@ def main():
             torch.load(os.path.join(args.save_directory, args.model_name)))
         model_style=model_style.to(device)
         optimizer=optim.Adamax(model_style.parameters(),lr=args.lr)
-        train2(args, data_train, data_test, model_style, model_loss, optimizer, device, style_img, mse_loss, msesum_loss,
+        train2(args, data_train, data_test, model_style, model_loss, optimizer, schedular, device, style_img, mse_loss, msesum_loss,
               cnn_normalization_mean, cnn_normalization_std)
 
 
