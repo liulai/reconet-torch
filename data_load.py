@@ -65,7 +65,7 @@ class MPIDataset2(Dataset):
         # self.path = path + "training/"
         self.path = path
         self.transform = transform
-        self.dirlist = os.listdir(self.path + "clean/")
+        self.dirlist = os.listdir(self.path + "/clean/")
         self.dirlist.sort()
         # print(self.dirlist)
         self.numlist = []
