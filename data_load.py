@@ -70,7 +70,7 @@ class MPIDataset2(Dataset):
         # print(self.dirlist)
         self.numlist = []
         for folder in self.dirlist:
-            self.numlist.append(len(os.listdir(self.path + "clean/" + folder + "/")))
+            self.numlist.append(len(os.listdir(self.path + "/clean/" + folder + "/")))
 
     def __len__(self):
         return sum(self.numlist) - len(self.numlist)
@@ -83,9 +83,9 @@ class MPIDataset2(Dataset):
         """
         for i in range(0, len(self.numlist)):
             folder = self.dirlist[i]
-            path = self.path + "clean/" + folder + "/"
-            occpath = self.path + "occlusions/" + folder + "/"
-            flowpath = self.path + "flow/" + folder + "/"
+            path = self.path + "/clean/" + folder + "/"
+            occpath = self.path + "/occlusions/" + folder + "/"
+            flowpath = self.path + "/flow/" + folder + "/"
             if (idx < (self.numlist[i] - 1)):
                 num1 = toString(idx + 1)
                 num2 = toString(idx + 2)
