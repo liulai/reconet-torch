@@ -177,7 +177,8 @@ def train2(args, data_train, data_test, model_style, model_loss, optimizer, sche
 
 
             optimizer.step()
-        schedular.step()
+        if(args.is_schedular):
+            schedular.step()
 
 
     if (args.save_model):
@@ -226,6 +227,8 @@ def main():
                         help='style image name')
     parser.add_argument('--output-model',type=bool,default=False,
                         help='True: generate output model name')
+    parser.add_argument('--is-schedular',type=bool,default=True,
+                        help='')
 
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
