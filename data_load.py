@@ -74,6 +74,7 @@ class MPIDataset2(Dataset):
         self.transform = transform
         self.dirlist = os.listdir(self.path + "/clean/")
         self.dirlist.sort()
+        self.dirlist = [item for item in self.dirlist if item != 'bandage_1']
         # print(self.dirlist)
         self.numlist = []
         for folder in self.dirlist:
