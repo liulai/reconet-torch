@@ -6,18 +6,17 @@ from torch.utils.data import Dataset
 from PIL import Image
 import matplotlib.pyplot as plt
 import torch
-from torchvision.transforms import ToTensor, ToPILImage,Resize
+from torchvision.transforms import ToTensor, ToPILImage, Resize
 from skimage import transform
 
+# weight = 640
+# height = 360
 
-#weight = 640
-#height = 360
-
-#weight = 384
-#height = 216
+# weight = 384
+# height = 216
 
 weight = 512
-#height = 218
+# height = 218
 height = 216
 
 
@@ -48,12 +47,13 @@ class MPIDataSet(Dataset):
         flow = torch.from_numpy(transform.resize(flow, (height, weight))).permute(2, 0, 1).float()
         flow[0, :, :] *= float(flow.shape[1] / h)
         flow[1, :, :] *= float(flow.shape[2] / w)
-        
+
         ##take no occluded regions to compute
         mask = 1 - mask
         mask[mask < 0.99] = 0
         mask[mask > 0] = 1
         return img1, img2, mask, flow
+
 
 def toString(num):
     string = str(num)
@@ -74,8 +74,8 @@ class MPIDataset2(Dataset):
         self.transform = transform
         self.dirlist = os.listdir(self.path + "/clean/")
         self.dirlist.sort()
-        self.dirlist = [item for item in self.dirlist if item.find('bandage_1')<0]
-        #print(self.dirlist)
+        self.dirlist = [item for item in self.dirlist if item.find('bandage_1') < 0]
+        print(self.dirlist)
         self.numlist = []
         for folder in self.dirlist:
             self.numlist.append(len(os.listdir(self.path + "/clean/" + folder + "/")))
@@ -147,7 +147,7 @@ def get_mask2(output, sample, mask):
     :param mask: occlusions image, block current image, B x 1 x H x W
     :return: B x 1 x H x W
     '''
-    
+
     output_gray = 0.2989 * output[:, 2, :, :] + 0.5870 * output[:, 1, :, :] + 0.1140 * output[:, 0, :, :]
     sample_gray = 0.2989 * sample[:, 2, :, :] + 0.5870 * sample[:, 1, :, :] + 0.1140 * sample[:, 0, :, :]
     output_gray = output_gray.unsqueeze(1)
@@ -160,6 +160,7 @@ def get_mask2(output, sample, mask):
     mask_contrary[mask_contrary > 0] = 1
     return mask_contrary
 
+
 def load_data(phase):
     data_file = phase + '.txt'
     with open(data_file) as f:
@@ -168,7 +169,7 @@ def load_data(phase):
     return datasets
 
 
-def warp(img, flow,device):
+def warp(img, flow, device):
     b, c, h, w = img.size()
 
     # mesh grid
@@ -183,7 +184,7 @@ def warp(img, flow,device):
     gg = gg.permute(0, 2, 3, 1)
 
     output = torch.nn.functional.grid_sample(img, gg)
-    mask = torch.nn.functional.grid_sample(torch.ones(img.size(),device=device), gg, mode='bilinear')
+    mask = torch.nn.functional.grid_sample(torch.ones(img.size(), device=device), gg, mode='bilinear')
 
     mask[mask < 0.9999] = 0
     mask[mask > 0] = 1
@@ -191,7 +192,6 @@ def warp(img, flow,device):
     output = output * mask
 
     return output
-
 
 
 def warp2(img, flow, device):
@@ -218,7 +218,6 @@ def warp2(img, flow, device):
     return output, mask_boundary
 
 
-
 def main():
     # data=MPIDataSet(r'F:\DATASET\MPI-Sintel-complete\training')
     os.chdir(r'F:\DATASET\MPI-Sintel-complete')
@@ -227,17 +226,17 @@ def main():
     print(torch.max(sample[3]), torch.min(sample[3]))
     warp(sample[0].unsqueeze(0), sample[3].unsqueeze(0))
 
-    img2=torch.nn.functional.interpolate(sample[3].unsqueeze(0),mode='bilinear',size=(100,200),align_corners=True)
+    img2 = torch.nn.functional.interpolate(sample[3].unsqueeze(0), mode='bilinear', size=(100, 200), align_corners=True)
     print(img2.size())
 
     plt.imshow(ToPILImage()(img2[0, 0]))
     plt.show()
-    img=torch.nn.Upsample(size=(100,200),mode='bilinear',align_corners=True)(sample[3].unsqueeze(0))
+    img = torch.nn.Upsample(size=(100, 200), mode='bilinear', align_corners=True)(sample[3].unsqueeze(0))
 
     print(img.size())
-    plt.imshow(ToPILImage()(img[0,0]))
+    plt.imshow(ToPILImage()(img[0, 0]))
     plt.show()
-    plt.imshow(Resize((100,200),interpolation=Image.BILINEAR)(ToPILImage()(sample[3][0])))
+    plt.imshow(Resize((100, 200), interpolation=Image.BILINEAR)(ToPILImage()(sample[3][0])))
     plt.show()
 
 
@@ -256,6 +255,50 @@ def test():
     print(a)
 
 
+def test2():
+    data = MPIDataset2(r'E:\\AI\\DATASET\\MPI\\training\\')
+    print(len(data))
+    for i in range(len(data)):
+        break
+        sample = data[i]
+        img1, img2, mask, flow = sample
+        # flow opitcal is contrary
+        img1, img2 = img2, img1
+        img1 = img1.unsqueeze(0)
+        flow = flow.unsqueeze(0)
+        img2 = img2.unsqueeze(0)
+        mask = mask.unsqueeze(0)
+        img1_warp, mask_boundary_img1 = warp2(img1, flow, 'cpu')
+        # print(img1_warp.size())
+        # print(mask_boundary_img1.size())
+
+        mask2 = get_mask2(img1_warp, img2, mask)
+
+        # fig = plt.figure()
+        # # plt.subplot(121)
+        # plt.imshow(ToPILImage()(img1_warp.squeeze()))
+        # # plt.subplot(122)
+        # # plt.show()
+        # fig2 = plt.figure()
+        # plt.imshow(ToPILImage()(mask_boundary_img1.squeeze()))
+        # fig3 = plt.figure()
+        # plt.imshow(ToPILImage()(mask2.squeeze()))
+        # fig4 = plt.figure()
+        # plt.imshow(ToPILImage()((mask2 * mask_boundary_img1).squeeze()))
+        # fig5 = plt.figure()
+        output_img = torch.abs(img1_warp - img2) ** 2
+        output_img = output_img * mask2 * mask_boundary_img1
+        if torch.sum(output_img) > 80:
+            # print(i)
+            print('id:{} output_img.sum:{}'.format(i, int(torch.sum(output_img))))
+
+        # plt.imshow(ToPILImage()(output_img.squeeze()))
+        #
+        # plt.show()
+        # break
+
+
 if __name__ == '__main__':
-    main()
+    # main()
     # test()
+    test2()
