@@ -74,10 +74,10 @@ class MPIDataset2(Dataset):
         self.transform = transform
         self.dirlist = os.listdir(self.path + "/clean/")
         self.dirlist.sort()
-        self.dirlist = [item for item in self.dirlist if item.find('bandage_1') < 0]
-        print(self.dirlist)
+        self.dirlist2 = [item for item in self.dirlist if item.find('bandage_1') < 0]
+        # print(self.dirlist)
         self.numlist = []
-        for folder in self.dirlist:
+        for folder in self.dirlist2:
             self.numlist.append(len(os.listdir(self.path + "/clean/" + folder + "/")))
 
     def __len__(self):
