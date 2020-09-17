@@ -79,6 +79,10 @@ class MPIDataset2(Dataset):
         self.numlist = []
         for folder in self.dirlist:
             self.numlist.append(len(os.listdir(self.path + "/clean/" + folder + "/")))
+    
+    def print(self):
+        print(self.dirlist)
+        return self.dirlist
 
     def __len__(self):
         return sum(self.numlist) - len(self.numlist)
