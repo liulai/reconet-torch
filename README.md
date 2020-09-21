@@ -11,7 +11,7 @@ This repository contains a PyTorch implementation of the [ReCoNet paper](https:/
 
 
 ## dataset
-we use the MPI Sintel Dataset. The dataset contains flow fields, motion boundaries, unmatched regions, and image sequences. The image sequences are rendered with different levels of difficulty.
+we use the [MPI Sintel Dataset](http://files.is.tue.mpg.de/sintel/MPI-Sintel-complete.zip). The dataset contains flow fields, motion boundaries, unmatched regions, and image sequences. The image sequences are rendered with different levels of difficulty.
 
 # Train
 
