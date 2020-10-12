@@ -45,7 +45,7 @@ class ConvTanh(ConvLayer):
         x = super(ConvTanh, self).forward(x)
 #        x = self.tanh(x/255) * 150 + 255/2
         x = self.tanh(x)
-        x = (x + 1) / 2
+#        x = (x + 1) / 2
 #        x[x<0]=0
 #        x[x>1]=1
         return x
